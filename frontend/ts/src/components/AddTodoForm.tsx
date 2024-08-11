@@ -1,10 +1,26 @@
-// import {useState} from "react"
+ import {useState} from "react"
 
-const AddTodoForm = () => {
-    // const [input, setInput] = useState("");
+ interface AddTodoFormProps {
+  onSubmit : (title:string) => void;
+ }
+
+const AddTodoForm = ({onSubmit}:AddTodoFormProps) => {
+  const [input, setInput] = useState("");
+
+  const handleSubmit=(e:React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+    if(!input.trim()) return;
+
+    onSubmit(input);
+    setInput("");
+
+  }
+
   return (
-    <form className="flex">
+    <form className="flex" onSubmit={handleSubmit}>
       <input
+        value={input}
+        onChange={(e)=>setInput(e.target.value)}
         placeholder="What needs to be done?"
         className="rounded-s-md grow border border-gray-400 p-2"
       />
